@@ -29,7 +29,13 @@ class NmsReflectionWrapperImpl : NmsReflectionWrapper, HQSimpleComponent {
         virtual.forEach {
             it.createVirtualMessage()?.also { virtual ->
                 virtual.send { packet ->
-                    if (packet is Packet<*>) connection.sendPacket(packet)
+                    if (packet is Packet<*>) {
+                        try {
+                            connection.sendPacket(packet)
+                        } catch (e: NoSuchMethodError) {
+                            connection.send(packet)
+                        }
+                    }
                     else if (packet is VirtualFunc) packet.invoke(player)
                     if (it is VirtualContainer) player.updateInventory()
                 }
@@ -44,7 +50,13 @@ class NmsReflectionWrapperImpl : NmsReflectionWrapper, HQSimpleComponent {
                     val handle = (player as CraftPlayer).handle
                     val connection = handle.connection
                     virtual.send { packet ->
-                        if (packet is Packet<*>) connection.sendPacket(packet)
+                        if (packet is Packet<*>) {
+                            try {
+                                connection.sendPacket(packet)
+                            } catch (e: NoSuchMethodError) {
+                                connection.send(packet)
+                            }
+                        }
                         else if (packet is VirtualFunc) packet.invoke(player)
                     }
                 }
@@ -58,7 +70,13 @@ class NmsReflectionWrapperImpl : NmsReflectionWrapper, HQSimpleComponent {
                 val handle = (player as CraftPlayer).handle
                 val connection = handle.connection
                 virtual.send { packet ->
-                    if (packet is Packet<*>) connection.sendPacket(packet)
+                    if (packet is Packet<*>) {
+                        try {
+                            connection.sendPacket(packet)
+                        } catch (e: NoSuchMethodError) {
+                            connection.send(packet)
+                        }
+                    }
                     else if (packet is VirtualFunc) packet.invoke(player)
                 }
             }
