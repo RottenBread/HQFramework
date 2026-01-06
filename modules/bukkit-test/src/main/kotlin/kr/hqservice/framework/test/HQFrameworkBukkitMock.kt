@@ -57,12 +57,6 @@ class HQFrameworkBukkitMock : HQFrameworkBukkitPlugin {
     }
 
     internal constructor() : super()
-    internal constructor(
-        loader: JavaPluginLoader,
-        description: PluginDescriptionFile,
-        dataFolder: File,
-        file: File
-    ) : super(loader, description, dataFolder, file)
 
     public override val bukkitComponentRegistry: BukkitComponentRegistry =
         spyk(BukkitComponentRegistry(this), recordPrivateCalls = true)
